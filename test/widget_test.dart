@@ -1,30 +1,27 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:visual_impared_assistant/main.dart';
+import 'package:visual_impared_assistant/app/app.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('app starts on object recognition mode', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(const VisualImpairedAssistantApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    expect(find.text('Nhận diện vật thể'), findsOneWidget);
+    expect(find.text('Hướng camera vào vật thể xung quanh'), findsOneWidget);
+    expect(find.text('Vật thể'), findsWidgets);
+  });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+  testWidgets('bottom navigation switches to currency mode', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(const VisualImpairedAssistantApp());
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    await tester.tap(find.text('Tiền tệ').last);
+    await tester.pumpAndSettle();
+
+    expect(find.text('Nhận diện tiền tệ'), findsOneWidget);
+    expect(find.text('Căn chỉnh tờ tiền vào khung'), findsOneWidget);
   });
 }
