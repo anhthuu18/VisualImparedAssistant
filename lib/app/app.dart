@@ -1,32 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../features/recognition/recognition_home_page.dart';
+import '../features/recognition/presentation/index.dart';
 
 class VisualImpairedAssistantApp extends StatelessWidget {
   const VisualImpairedAssistantApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    const surfaceColor = Color(0xFF101C22);
-    const primaryColor = Color(0xFF13A4EC);
-
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Visual Impaired Assistant',
-      theme: ThemeData(
-        useMaterial3: true,
-        brightness: Brightness.dark,
-        scaffoldBackgroundColor: surfaceColor,
-        colorScheme: const ColorScheme.dark(
-          primary: primaryColor,
-          surface: surfaceColor,
-        ),
-        textTheme: ThemeData.dark().textTheme.apply(
-          bodyColor: Colors.white,
-          displayColor: Colors.white,
-        ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => OnboardingBloc()),
+        BlocProvider(create: (context) => AuthBloc()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Visual Impaired Assistant',
+        theme: ThemeData.dark(),
+        home: const OnboardingScreen(),
       ),
-      home: const RecognitionHomePage(),
     );
   }
 }
