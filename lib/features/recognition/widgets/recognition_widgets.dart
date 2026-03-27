@@ -1,12 +1,55 @@
 import 'package:flutter/material.dart';
 
 import '../models/recognition_models.dart';
+import '../recognition_history_screen.dart';
 
 class TopBar extends StatelessWidget {
-  const TopBar({super.key, required this.title, required this.onMenuPressed});
+  const TopBar({
+    super.key,
+    required this.title,
+    required this.onMenuPressed,
+  });
 
   final String title;
   final VoidCallback onMenuPressed;
+
+  void _showAvatarMenu(BuildContext context) {
+    final offset = Offset.zero;
+    showMenu(
+      context: context,
+      position: const RelativeRect.fromLTRB(280, 50, 20, 0),
+      items: [
+        PopupMenuItem<int>(
+          value: 1,
+          child: Row(
+            children: const <Widget>[
+              Icon(Icons.history_rounded, color: Color(0xFF13A4EC)),
+              SizedBox(width: 12),
+              Text('Lịch sử nhận diện'),
+            ],
+          ),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const RecognitionHistoryScreen(),
+              ),
+            );
+          },
+        ),
+        PopupMenuItem<int>(
+          value: 2,
+          child: Row(
+            children: const <Widget>[
+              Icon(Icons.logout_rounded, color: Colors.red),
+              SizedBox(width: 12),
+              Text('Đăng xuất'),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +69,13 @@ class TopBar extends StatelessWidget {
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
             ),
           ),
-          const CircleAvatar(
-            radius: 20,
-            backgroundColor: Color(0xFF233740),
-            child: Icon(Icons.person_rounded, color: Colors.white),
+          GestureDetector(
+            onTap: () => _showAvatarMenu(context),
+            child: const CircleAvatar(
+              radius: 20,
+              backgroundColor: Color(0xFF233740),
+              child: Icon(Icons.person_rounded, color: Colors.white),
+            ),
           ),
         ],
       ),
@@ -424,12 +470,16 @@ class AppDrawer extends StatelessWidget {
     required this.selectedLanguage,
     required this.onModeSelected,
     required this.onLanguageSelected,
+    this.themeMode = ThemeMode.dark,
+    this.onThemeModeChanged,
   });
 
   final RecognitionMode selectedMode;
   final AppLanguage selectedLanguage;
   final ValueChanged<RecognitionMode> onModeSelected;
   final ValueChanged<AppLanguage> onLanguageSelected;
+  final ThemeMode themeMode;
+  final ValueChanged<ThemeMode>? onThemeModeChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -645,6 +695,126 @@ class AppDrawer extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 14),
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(20, 18, 20, 18),
+                      height: 1,
+                      color: Colors.white.withValues(alpha: 0.08),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(20, 0, 20, 12),
+                      child: Text(
+                        'CHỈ ĐỘ ÁNH SÁNG',
+                        style: TextStyle(
+                          color: Color(0xFF13A4EC),
+                          fontSize: 11,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 2.1,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(14),
+                              onTap: () =>
+                                  onThemeModeChanged?.call(ThemeMode.light),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 12,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: themeMode == ThemeMode.light
+                                      ? const Color(0xFF13A4EC)
+                                      : Colors.white.withValues(alpha: 0.05),
+                                  borderRadius: BorderRadius.circular(14),
+                                  border: Border.all(
+                                    color: themeMode == ThemeMode.light
+                                        ? const Color(0xFF13A4EC)
+                                        : Colors.white.withValues(alpha: 0.08),
+                                    width: 2,
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.light_mode_rounded,
+                                      color: themeMode == ThemeMode.light
+                                          ? Colors.black
+                                          : Colors.white70,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      'Sáng',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                        color: themeMode == ThemeMode.light
+                                            ? Colors.black
+                                            : Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(14),
+                              onTap: () =>
+                                  onThemeModeChanged?.call(ThemeMode.dark),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 12,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: themeMode == ThemeMode.dark
+                                      ? const Color(0xFF13A4EC)
+                                      : Colors.white.withValues(alpha: 0.05),
+                                  borderRadius: BorderRadius.circular(14),
+                                  border: Border.all(
+                                    color: themeMode == ThemeMode.dark
+                                        ? const Color(0xFF13A4EC)
+                                        : Colors.white.withValues(alpha: 0.08),
+                                    width: 2,
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.dark_mode_rounded,
+                                      color: themeMode == ThemeMode.dark
+                                          ? Colors.black
+                                          : Colors.white70,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      'Tối',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                        color: themeMode == ThemeMode.dark
+                                            ? Colors.black
+                                            : Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 14),
                   ],
                 ),
               ),
@@ -652,16 +822,30 @@ class AppDrawer extends StatelessWidget {
             Container(
               width: double.infinity,
               color: Colors.black.withValues(alpha: 0.18),
-              padding: const EdgeInsets.all(20),
-              child: const Row(
+              child: Column(
                 children: <Widget>[
-                  Icon(Icons.settings_rounded, color: Colors.white54),
-                  SizedBox(width: 12),
-                  Text(
-                    'Cài đặt hệ thống',
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontWeight: FontWeight.w500,
+                  InkWell(
+                    onTap: () {},
+                    child: const Padding(
+                      padding: EdgeInsets.all(20),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.settings_rounded,
+                              color: Colors.white54),
+                          SizedBox(width: 12),
+                          Expanded(
+                            child: Text(
+                              'Cài đặt hệ thống',
+                              style: TextStyle(
+                                color: Colors.white70,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          Icon(Icons.arrow_forward_rounded,
+                              color: Colors.white24, size: 20),
+                        ],
+                      ),
                     ),
                   ),
                 ],
