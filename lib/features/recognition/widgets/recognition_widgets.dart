@@ -424,12 +424,16 @@ class AppDrawer extends StatelessWidget {
     required this.selectedLanguage,
     required this.onModeSelected,
     required this.onLanguageSelected,
+    this.themeMode = ThemeMode.dark,
+    this.onThemeModeChanged,
   });
 
   final RecognitionMode selectedMode;
   final AppLanguage selectedLanguage;
   final ValueChanged<RecognitionMode> onModeSelected;
   final ValueChanged<AppLanguage> onLanguageSelected;
+  final ThemeMode themeMode;
+  final ValueChanged<ThemeMode>? onThemeModeChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -642,6 +646,126 @@ class AppDrawer extends StatelessWidget {
                             ),
                           );
                         }).toList(),
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(20, 18, 20, 18),
+                      height: 1,
+                      color: Colors.white.withValues(alpha: 0.08),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(20, 0, 20, 12),
+                      child: Text(
+                        'CHỈ ĐỘ ÁNH SÁNG',
+                        style: TextStyle(
+                          color: Color(0xFF13A4EC),
+                          fontSize: 11,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 2.1,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(14),
+                              onTap: () =>
+                                  onThemeModeChanged?.call(ThemeMode.light),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 12,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: themeMode == ThemeMode.light
+                                      ? const Color(0xFF13A4EC)
+                                      : Colors.white.withValues(alpha: 0.05),
+                                  borderRadius: BorderRadius.circular(14),
+                                  border: Border.all(
+                                    color: themeMode == ThemeMode.light
+                                        ? const Color(0xFF13A4EC)
+                                        : Colors.white.withValues(alpha: 0.08),
+                                    width: 2,
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.light_mode_rounded,
+                                      color: themeMode == ThemeMode.light
+                                          ? Colors.black
+                                          : Colors.white70,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      'Sáng',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                        color: themeMode == ThemeMode.light
+                                            ? Colors.black
+                                            : Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(14),
+                              onTap: () =>
+                                  onThemeModeChanged?.call(ThemeMode.dark),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 12,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: themeMode == ThemeMode.dark
+                                      ? const Color(0xFF13A4EC)
+                                      : Colors.white.withValues(alpha: 0.05),
+                                  borderRadius: BorderRadius.circular(14),
+                                  border: Border.all(
+                                    color: themeMode == ThemeMode.dark
+                                        ? const Color(0xFF13A4EC)
+                                        : Colors.white.withValues(alpha: 0.08),
+                                    width: 2,
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.dark_mode_rounded,
+                                      color: themeMode == ThemeMode.dark
+                                          ? Colors.black
+                                          : Colors.white70,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      'Tối',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                        color: themeMode == ThemeMode.dark
+                                            ? Colors.black
+                                            : Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     const SizedBox(height: 14),

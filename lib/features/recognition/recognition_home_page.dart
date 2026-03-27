@@ -14,6 +14,7 @@ class _RecognitionHomePageState extends State<RecognitionHomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   RecognitionMode _selectedMode = RecognitionMode.object;
   AppLanguage _selectedLanguage = AppLanguage.vietnamese;
+  ThemeMode _themeMode = ThemeMode.dark;
 
   int get _currentBottomIndex => bottomModes.indexOf(_selectedMode);
 
@@ -30,6 +31,7 @@ class _RecognitionHomePageState extends State<RecognitionHomePage> {
       drawer: AppDrawer(
         selectedMode: _selectedMode,
         selectedLanguage: _selectedLanguage,
+        themeMode: _themeMode,
         onModeSelected: (mode) {
           Navigator.of(context).pop();
           _selectMode(mode);
@@ -37,6 +39,11 @@ class _RecognitionHomePageState extends State<RecognitionHomePage> {
         onLanguageSelected: (language) {
           setState(() {
             _selectedLanguage = language;
+          });
+        },
+        onThemeModeChanged: (themeMode) {
+          setState(() {
+            _themeMode = themeMode;
           });
         },
       ),
