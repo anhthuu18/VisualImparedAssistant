@@ -1,12 +1,55 @@
 import 'package:flutter/material.dart';
 
 import '../models/recognition_models.dart';
+import '../recognition_history_screen.dart';
 
 class TopBar extends StatelessWidget {
-  const TopBar({super.key, required this.title, required this.onMenuPressed});
+  const TopBar({
+    super.key,
+    required this.title,
+    required this.onMenuPressed,
+  });
 
   final String title;
   final VoidCallback onMenuPressed;
+
+  void _showAvatarMenu(BuildContext context) {
+    final offset = Offset.zero;
+    showMenu(
+      context: context,
+      position: const RelativeRect.fromLTRB(280, 50, 20, 0),
+      items: [
+        PopupMenuItem<int>(
+          value: 1,
+          child: Row(
+            children: const <Widget>[
+              Icon(Icons.history_rounded, color: Color(0xFF13A4EC)),
+              SizedBox(width: 12),
+              Text('Lịch sử nhận diện'),
+            ],
+          ),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const RecognitionHistoryScreen(),
+              ),
+            );
+          },
+        ),
+        PopupMenuItem<int>(
+          value: 2,
+          child: Row(
+            children: const <Widget>[
+              Icon(Icons.logout_rounded, color: Colors.red),
+              SizedBox(width: 12),
+              Text('Đăng xuất'),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +69,13 @@ class TopBar extends StatelessWidget {
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
             ),
           ),
-          const CircleAvatar(
-            radius: 20,
-            backgroundColor: Color(0xFF233740),
-            child: Icon(Icons.person_rounded, color: Colors.white),
+          GestureDetector(
+            onTap: () => _showAvatarMenu(context),
+            child: const CircleAvatar(
+              radius: 20,
+              backgroundColor: Color(0xFF233740),
+              child: Icon(Icons.person_rounded, color: Colors.white),
+            ),
           ),
         ],
       ),
@@ -776,16 +822,30 @@ class AppDrawer extends StatelessWidget {
             Container(
               width: double.infinity,
               color: Colors.black.withValues(alpha: 0.18),
-              padding: const EdgeInsets.all(20),
-              child: const Row(
+              child: Column(
                 children: <Widget>[
-                  Icon(Icons.settings_rounded, color: Colors.white54),
-                  SizedBox(width: 12),
-                  Text(
-                    'Cài đặt hệ thống',
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontWeight: FontWeight.w500,
+                  InkWell(
+                    onTap: () {},
+                    child: const Padding(
+                      padding: EdgeInsets.all(20),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.settings_rounded,
+                              color: Colors.white54),
+                          SizedBox(width: 12),
+                          Expanded(
+                            child: Text(
+                              'Cài đặt hệ thống',
+                              style: TextStyle(
+                                color: Colors.white70,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          Icon(Icons.arrow_forward_rounded,
+                              color: Colors.white24, size: 20),
+                        ],
+                      ),
                     ),
                   ),
                 ],

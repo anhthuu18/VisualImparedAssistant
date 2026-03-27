@@ -145,3 +145,64 @@ extension AppLanguageX on AppLanguage {
     }
   }
 }
+
+class RecognitionHistoryItem {
+  final String id;
+  final String title;
+  final String? description;
+  final String? imagePath;
+  final RecognitionMode mode;
+  final DateTime dateTime;
+
+  RecognitionHistoryItem({
+    required this.id,
+    required this.title,
+    this.description,
+    this.imagePath,
+    required this.mode,
+    required this.dateTime,
+  });
+}
+
+final List<RecognitionHistoryItem> mockHistoryItems = <RecognitionHistoryItem>[
+  RecognitionHistoryItem(
+    id: '1',
+    title: 'Công thức nấu ăn',
+    description: 'VĂN BẢN',
+    imagePath: null,
+    mode: RecognitionMode.text,
+    dateTime: DateTime.now().subtract(const Duration(hours: 2)),
+  ),
+  RecognitionHistoryItem(
+    id: '2',
+    title: '500.000 VND',
+    description: 'TIỀN TỆ',
+    imagePath: null,
+    mode: RecognitionMode.currency,
+    dateTime: DateTime.now().subtract(const Duration(hours: 5)),
+  ),
+  RecognitionHistoryItem(
+    id: '3',
+    title: 'Đồng hồ đeo tay',
+    description: 'VẬT THỂ',
+    imagePath: null,
+    mode: RecognitionMode.brand,
+    dateTime: DateTime.now().subtract(const Duration(days: 1)),
+  ),
+  RecognitionHistoryItem(
+    id: '4',
+    title: 'Trạng sách thứ 42',
+    description: 'VĂN BẢN',
+    imagePath: null,
+    mode: RecognitionMode.text,
+    dateTime: DateTime.now().subtract(const Duration(days: 1, hours: 3)),
+  ),
+  RecognitionHistoryItem(
+    id: '5',
+    title: 'Giày thể thao đỏ',
+    description: 'VẬT THỂ',
+    imagePath: null,
+    mode: RecognitionMode.object,
+    dateTime: DateTime.now().subtract(const Duration(days: 2)),
+  ),
+];
